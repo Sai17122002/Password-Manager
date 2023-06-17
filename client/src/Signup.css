@@ -1,0 +1,46 @@
+.inner1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 120px;
+  margin: 70px 100px;
+  color: black;
+}
+
+.outer1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.but1 {
+  width: 215px;
+  height: 40px;
+  margin-left: 70px;
+}
+
+.nam112 {
+  font-size: 30px;
+  color: black;
+}
+
+img1 {
+  margin-top: 7px;
+  margin-left: 90px;
+  width: 40px;
+  height: 40px;
+}
+
+.nam111 {
+  color: black;
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.nam112 {
+  color: #674fa2;
+  text-align: center;
+  font-size: 30px;
+}

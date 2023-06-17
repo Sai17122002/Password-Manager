@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
+
+body {
+  color: #1a202c;
+  background: #f7f2f8;
+  transition-property: background-color;
+  transition-duration: 10ms;
+  line-height: var(--chakra-lineHeights-base);
+  font-family: "Open Sans", sans-serif;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.Addpass {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #d4cddb;
+  width: 60%;
+  height: 300px;
+  border-radius: 20px;
+  margin-top: 30px;
+  padding: 10px;
+}
+
+.Addpass button,
+input {
+  width: 300px;
+  height: 40px;
+  border: none;
+  border-radius: 7px;
+  margin: 10px;
+  padding-left: 15px;
+  font-size: 17px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.Heading {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  color: black;
+  position: relative;
+  font-size: 30px;
+}
+
+.logut button {
+  /* height: 30px;
+  width: 70px; */
+  font-size: 15px;
+  padding: 5px 10px;
+}
+
+.pp1 {
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.showPasswo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.passcode {
+  width: 400px;
+  height: 70px;
+  background-color: grey;
+  border-radius: 7px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.Addpass div:nth-child(1) {
+  font-size: 20px;
+}
+
+.Addpass input {
+  border-color: #fff;
+  border: 1px solid #e0d7d7;
+  outline: none;
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1px 8px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  width: 45%;
+}

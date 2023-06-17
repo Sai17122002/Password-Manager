@@ -1,0 +1,69 @@
+.inner-pin {
+  width: 350px;
+  height: 500px;
+  background-color: #674fa2;
+  margin-top: 50px;
+  border-radius: 12px;
+}
+
+.outer-pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pinclass {
+  margin-top: 70px;
+  margin-left: 70px;
+  display: block;
+  width: 200px;
+  height: 50px;
+  outline: none;
+}
+
+.pinclass:hover {
+  outline: none;
+}
+
+.but {
+  width: 215px;
+  height: 40px;
+  margin-left: 70px;
+}
+
+.inner-pin .nam {
+  margin-top: 40px;
+  margin-left: 150px;
+  font-size: 30px;
+  color: white;
+}
+
+img {
+  margin-top: 7px;
+  margin-left: 90px;
+  width: 40px;
+  height: 40px;
+}
+
+.upper-pin .up {
+  margin-top: 10px;
+  margin-left: 10px;
+  color: white;
+  font-size: 30px;
+}
+
+.upper-pin {
+  margin-top: 10px;
+  display: flex;
+}
+
+.inner-pin .but {
+  height: 40px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  background: #d4cddb;
+  color: black;
+}
