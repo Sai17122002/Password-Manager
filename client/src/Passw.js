@@ -21,17 +21,12 @@ function Passw() {
     ans1 = ans1 + ans[i];
   }
 
-  console.log("d1......" + ans);
-
-  console.log("c1......" + ans1);
-
   i = i + 1;
   while (i < ans.length) {
     ans2 = ans2 + ans[i];
     i++;
   }
-  console.log("c2..............." + ans2);
-
+ 
   const fun3 = () => {
     navigate("/App", { state: ans2 });
   };

@@ -4,12 +4,14 @@ import Axios from "axios";
 import { NavLink, useLocation } from "react-router-dom";
 import Login from "./Login";
 import { useNavigate } from "react-router-dom";
+import Modal from "./Modal/Modal";
 
 function App() {
   const location = useLocation();
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
+  const [addPasswordModal, setAddPasswordModal] = useState(false);
   const navigate = useNavigate();
 
   const addPassword = () => {
@@ -51,53 +53,34 @@ function App() {
     navigate("/Login");
   };
 
-  console.log(location.state);
+  console.log(passList);
+  const AddPasswordModal = () => {
+    setAddPasswordModal(true);
+  };
 
+  const onCancel = () => {
+    setAddPasswordModal(false);
+  };
   return (
     <div className="App">
-      <div className="Heading">
-        PASS-MAN
-        <div className="logut">
-          <button className="login-but" onClick={loggout}>
-            LOGOUT
-          </button>
-        </div>
-      </div>
-      <div className="Addpass">
-        <div>Enter Website and password</div>
-        <input
-          type="text"
-          placeholder="Website"
-          onChange={(event) => {
-            setTitle(event.target.value);
-          }}
+      {addPasswordModal && (
+        <Modal
+          setTitle={setTitle}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          onCancel={onCancel}
+          addPassword={addPassword}
         />
-
-        <input
-          type="text"
-          placeholder="Username"
-          onChange={(event) => {
-            setUsername(event.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
-
-        <button className="login-but" onClick={addPassword}>
-          {" "}
-          Add Password
-        </button>
-      </div>
+      )}
+      <button onClick={AddPasswordModal} className="addpassword-button">
+        {" "}
+        Add Password
+      </button>
 
       <div className="pp1">Click below to view your Password</div>
 
       <div className="showPasswo">
-        {passList.map((val) => {
+        {/* {passList.map((val) => {
           return (
             <div
               style={{ background: "#674fa2" }}
@@ -107,10 +90,60 @@ function App() {
               }}
             >
               {" "}
-              <h3 style={{textTransform: "capitalize"}}>{val.title} </h3>{" "}
+              <h3 style={{ textTransform: "capitalize" }}>{val.title} </h3>{" "}
             </div>
           );
-        })}
+        })} */}
+        <table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>URL</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {passList.map((c) => (
+              <tr key={c.id}>
+                <td>{c.username}</td>
+                <td>www.google.com</td>
+                <td>{c.username}</td>
+                <td>******</td>
+                <td>
+                  <button variant="outline-primary">
+                    Copy Username to Clipboard
+                  </button>
+                </td>
+                <td>
+                  <button variant="outline-primary">
+                    Copy Password to Clipboard
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      decryptPass({
+                        password: c.password,
+                        iv: c.iv,
+                        id: c.id,
+                      });
+                    }}
+                  >
+                    View
+                  </button>
+                </td>
+                <td>
+                  <button>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
