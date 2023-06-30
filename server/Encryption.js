@@ -8,6 +8,7 @@ const encrypt = (password) => {
     const encryptedPass = Buffer.concat([cipher.update(password),cipher.final()]);
 
     return {iv: iv.toString("hex"), password: encryptedPass.toString("hex"),};
+    
 };
 
 const decrypt = (encryption) => {

@@ -5,6 +5,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import Login from "./Login";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal/Modal";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 function App() {
   const location = useLocation();
@@ -61,6 +62,9 @@ function App() {
   const onCancel = () => {
     setAddPasswordModal(false);
   };
+ 
+
+
   return (
     <div className="App">
       {addPasswordModal && (
@@ -115,15 +119,13 @@ function App() {
                 <td>{c.username}</td>
                 <td>******</td>
                 <td>
+                <CopyToClipboard text={c.username}>
                   <button variant="outline-primary">
                     Copy Username to Clipboard
                   </button>
+                  </CopyToClipboard>
                 </td>
-                <td>
-                  <button variant="outline-primary">
-                    Copy Password to Clipboard
-                  </button>
-                </td>
+              
                 <td>
                   <button
                     onClick={() => {
@@ -138,7 +140,7 @@ function App() {
                   </button>
                 </td>
                 <td>
-                  <button>Delete</button>
+                  <button variant="outline-primary" >Delete</button>
                 </td>
               </tr>
             ))}
