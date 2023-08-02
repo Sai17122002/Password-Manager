@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import Login from "./Login";
 import "./Passw.css";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 function Passw() {
   const location = useLocation();
@@ -38,6 +39,11 @@ function Passw() {
         <button className="b1t login-but" onClick={fun3}>
           Go back
         </button>
+        <CopyToClipboard text={ans1}>
+          <button className="b1t login-but">
+            Copy Password 
+          </button>
+        </CopyToClipboard>
       </div>
     </div>
   );
