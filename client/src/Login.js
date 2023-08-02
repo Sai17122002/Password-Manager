@@ -4,14 +4,20 @@ import "./Login.css";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
-import App from "./App";
+import {
+  VALIDATOR_EMAIL,
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_REQUIRE,
+} from "./Util/validators";
+import Input from "./shared/Input";
 import { TypeAnimation } from "react-type-animation";
 
 function Login() {
   const navigate = useNavigate();
   const [usname, Setusname] = useState("");
   const [passname, Setpassname] = useState("");
-
+  const [unameIsValid, setUnameIsValid] = useState(false);
+  const [passIsValid, setPassIsValid] = useState(false);
   const [userList, setuserList] = useState([]);
 
   useEffect(() => {
@@ -36,7 +42,25 @@ function Login() {
       }
     }
   };
-
+  const InputHandler = (data) => {
+    if (data) {
+      setUnameIsValid(data.isValid);
+      Setusname(data.value);
+    }
+  };
+  const PasswordInputHandler = (data) => {
+    if (data) {
+      Setpassname(data.value);
+      setPassIsValid(data.isValid);
+    }
+  };
+  let dis="";
+  console.log(unameIsValid ,passIsValid);
+  if(unameIsValid && passIsValid)
+  {
+    dis="";
+  }
+  else dis="not-allowed";
   return (
     <div className="outer-login">
       <div className="outer-login-text">
@@ -68,28 +92,29 @@ function Login() {
 
         <div className="login-email">
           <p>Email</p>
-          <input
-            type="text"
-            className="uname"
-            // placeholder="Enter Username"
-            onChange={(event) => {
-              Setusname(event.target.value);
-            }}
+          <Input
+            onInput={InputHandler}
+            validators={[VALIDATOR_EMAIL()]}
+            errorText="Enter a valid email"
           />
         </div>
         <div className="login-password">
           <p>Password</p>
-          <input
-            type="password"
-            className="pass"
-            // placeholder="Enter Password"
-            onChange={(event) => {
-              Setpassname(event.target.value);
-            }}
+          <Input
+            onInput={PasswordInputHandler}
+            validators={[VALIDATOR_MINLENGTH(6)]}
+            errorText="Enter a valid password"
           />
         </div>
         <div className="button-wrapper">
-          <button className="login-but" onClick={putdata}>
+          <button
+            style={{
+              marginLeft: "0",
+              cursor: dis,
+            }}
+            className="login-but"
+            onClick={putdata}
+          >
             LOGIN
           </button>
         </div>

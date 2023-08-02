@@ -43,9 +43,6 @@ function App() {
       iv: encryption.iv,
     }).then((response) => {
       navigate("/Pin", { state: { val: response.data, vl: a } });
-      // setPassList(passList.map((val) => {
-      //     return val.id === encryption.id ? {id: val.id , password: val.password , title:response.data , iv: val.iv}:val;
-      // }));
     });
   };
 
@@ -80,20 +77,6 @@ function App() {
       <div className="pp1">Click below to view your Password</div>
 
       <div className="showPasswo">
-        {/* {passList.map((val) => {
-          return (
-            <div
-              style={{ background: "#674fa2" }}
-              className="passcode"
-              onClick={() => {
-                decryptPass({ password: val.password, iv: val.iv, id: val.id });
-              }}
-            >
-              {" "}
-              <h3 style={{ textTransform: "capitalize" }}>{val.title} </h3>{" "}
-            </div>
-          );
-        })} */}
         <table striped bordered hover>
           <thead>
             <tr>

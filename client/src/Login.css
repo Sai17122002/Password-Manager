@@ -88,6 +88,9 @@ img {
   padding: 1px 5px;
   outline: 2px solid transparent;
   outline-offset: 2px;
+  height: 40px;
+  border-radius: 7px;
+  font-size: 17px;
 }
 
 .inner-login input:hover {

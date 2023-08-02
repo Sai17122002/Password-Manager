@@ -8,6 +8,7 @@ const ModalOverlay = (props) => {
     <div className="Addpass modal">
       <div>Enter Website and password</div>
       <input
+      className="modal-input"
         type="text"
         placeholder="Website"
         onChange={(event) => {
@@ -16,6 +17,7 @@ const ModalOverlay = (props) => {
       />
 
       <input
+      className="modal-input"
         type="text"
         placeholder="Username"
         onChange={(event) => {
@@ -23,6 +25,7 @@ const ModalOverlay = (props) => {
         }}
       />
       <input
+      className="modal-input"
         type="text"
         placeholder="Password"
         onChange={(event) => {
