@@ -3,7 +3,7 @@ import pass from "./password.png";
 import { NavLink } from "react-router-dom";
 import "./Signup.css";
 import { useState, useEffect } from "react";
-import Axios from "axios";
+  import Axios from "axios";
 import { TypeAnimation } from "react-type-animation";
 import Input from "./shared/Input";
 import {
@@ -102,6 +102,7 @@ function Signup() {
             onInput={passInputHandler}
             validators={[VALIDATOR_MINLENGTH(6)]}
             errorText="Enter a valid password"
+            type="password"
           />
         </div>
         <div className="login-email">

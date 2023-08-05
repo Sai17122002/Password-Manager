@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import pass from "./password.png";
 import "./Login.css";
 import { useState, useEffect } from "react";
@@ -18,29 +18,19 @@ function Login() {
   const [passname, Setpassname] = useState("");
   const [unameIsValid, setUnameIsValid] = useState(false);
   const [passIsValid, setPassIsValid] = useState(false);
-  const [userList, setuserList] = useState([]);
 
-  useEffect(() => {
-    Axios.get("http://localhost:3001/userdet").then((response) => {
-      setuserList(response.data);
-      console.log(response.data);
-    });
-  }, []);
-  // console.log(userList);
   const putdata = () => {
-    let count = 0;
-    for (let i = 0; i < userList.length; i++) {
-      if (userList[i].Username === usname) {
-        if (userList[i].Password === passname) {
-          count = 1;
-        }
-      }
-      if (count === 1) {
-        navigate("/App", { state: usname });
-      } else {
+    console.log(usname, passname);
+    Axios.post("http://localhost:3001/userdet", {
+      email: usname,
+      password: passname,
+    })
+      .then(() => {
+        navigate("/App",{state: usname});
+      })
+      .catch((err) => {
         navigate("/Login");
-      }
-    }
+      });
   };
   const InputHandler = (data) => {
     if (data) {
@@ -54,13 +44,10 @@ function Login() {
       setPassIsValid(data.isValid);
     }
   };
-  let dis="";
-  console.log(unameIsValid ,passIsValid);
-  if(unameIsValid && passIsValid)
-  {
-    dis="";
-  }
-  else dis="not-allowed";
+  let dis = "";
+  if (unameIsValid && passIsValid) {
+    dis = "";
+  } else dis = "not-allowed";
   return (
     <div className="outer-login">
       <div className="outer-login-text">

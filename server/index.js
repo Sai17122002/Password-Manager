@@ -7,6 +7,8 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const User = require("./model/Shema");
 const Pass = require("./model/Pass");
+const bcrypt = require("bcryptjs");
+const HttpError = require("./model/httpError");
 const { encrypt, decrypt } = require("./Encryption.js");
 dotenv.config();
 
@@ -22,9 +24,19 @@ mongoose
     console.log(err);
   });
 
-app.post("/puttable", async (req, res) => {
+app.post("/puttable", async (req, res, next) => {
   const { usname, passc, pinn } = req.body;
-  const newUser = new User({ Username: usname, Password: passc, Pin: pinn });
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(passc, 12);
+  } catch (err) {
+    return next(new HttpError(err));
+  }
+  const newUser = new User({
+    Username: usname,
+    Password: hashedPassword,
+    Pin: pinn,
+  });
   try {
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);
@@ -33,7 +45,7 @@ app.post("/puttable", async (req, res) => {
   }
 });
 
-app.post("/addpassword", async (req, res) => {
+app.post("/addpassword", async (req, res, next) => {
   const { password, title, passcode, username } = req.body;
 
   const hpass = encrypt(password);
@@ -53,27 +65,81 @@ app.post("/addpassword", async (req, res) => {
   }
 });
 
-app.get("/showpass", async (req, res) => {
-  let passcode = req.query["passcode"];
+app.post("/showpass", async (req, res, next) => {
+  console.log("showpass");
+  const { email } = req.body;
+  console.log(email);
   try {
-    const passes = await Pass.find({ passcode: passcode });
+    const passes = await Pass.find({ passcode: email });
+    console.log(passes);
     res.status(200).json(passes);
   } catch (error) {
     res.status(500).json({ message: error });
   }
 });
 
-app.get("/userdet", async (req, res) => {
+//Login
+app.post("/userdet", async (req, res, next) => {
+  let users;
+  const { email, password } = req.body;
   try {
-    const users = await User.find();
-    res.status(200).json(users);
+    users = await User.findOne({ email: email });
   } catch (error) {
     res.status(500).json({ message: error });
   }
+  if (!users) {
+    return next(HttpError("Invalid credentials, could not log you in."));
+  }
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, users.Password);
+  } catch (err) {
+    return next(
+      new HttpError(
+        "Could not log you in, please check your credentials and try again."
+      )
+    );
+  }
+
+  if (!isValidPassword) {
+    return next(new HttpError("Invalid credentials, could not log you in."));
+  }
+  console.log(users.Username, users.Password);
+  res.json({
+    email: users.Username,
+    password: users.Password,
+  });
+});
+
+app.post("/allusers", async (req, res, next) => {
+  let users = await User.find({}, "-Username");
+  console.log(users);
+  res.json({ data: users });
 });
 
 app.post("/decryptpass", (req, res) => {
   res.send(decrypt(req.body));
+});
+
+app.post("/:id", async (req, res, next) => {
+  let pass;
+  try {
+    pass = await Pass.find({ _id: req.body.id });
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete place.",
+      500
+    );
+    return next(error);
+  }
+  Pass.remove({ _id: req.body.id }, function (err) {
+    if (!err) {
+      console.log("success");
+    } else {
+      console.log("Error");
+    }
+    res.json(pass);
+  });
 });
 
 app.listen(PORT);

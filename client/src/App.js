@@ -1,8 +1,8 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Axios from "axios";
-import { NavLink, useLocation } from "react-router-dom";
-import Login from "./Login";
+import { useLocation } from "react-router-dom";
+
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal/Modal";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -14,7 +14,6 @@ function App() {
   const [title, setTitle] = useState("");
   const [addPasswordModal, setAddPasswordModal] = useState(false);
   const navigate = useNavigate();
-
   const addPassword = () => {
     Axios.post("http://localhost:3001/addpassword", {
       password: password,
@@ -27,23 +26,26 @@ function App() {
   };
 
   const [passList, setPassList] = useState([]);
-
   let a = location.state;
-
+  console.log(location.state);
   useEffect(() => {
-    Axios.get("http://localhost:3001/showpass", {
-      params: { passcode: location.state },
+    Axios.post("http://localhost:3001/showpass", {
+      email: location.state,
     }).then((response) => {
+      console.log(response.data);
       setPassList(response.data);
     });
-  }, []);
-
+  }, [location.state.usname]);
+  console.log(passList);
   const decryptPass = (encryption) => {
     Axios.post("http://localhost:3001/decryptpass", {
       password: encryption.password,
       iv: encryption.iv,
     }).then((response) => {
-      navigate("/Pin", { state: { val: response.data, vl: a } });
+      console.log(response);
+      navigate("/Pin", {
+        state: { val: response.data, vl: a, email: location.state },
+      });
     });
   };
 
@@ -51,7 +53,6 @@ function App() {
     navigate("/Login");
   };
 
-  console.log(passList);
   const AddPasswordModal = () => {
     setAddPasswordModal(true);
   };
@@ -59,8 +60,15 @@ function App() {
   const onCancel = () => {
     setAddPasswordModal(false);
   };
- 
 
+  const deleteHandler = (id) => {
+    Axios.post("http://localhost:3001/:id", {
+      id: id,
+    }).then((response) => {
+      console.log("deleted");
+      window.location.reload(true);
+    });
+  };
 
   return (
     <div className="App">
@@ -102,13 +110,13 @@ function App() {
                 <td>{c.username}</td>
                 <td>******</td>
                 <td>
-                <CopyToClipboard text={c.username}>
-                  <button variant="outline-primary">
-                    Copy Username to Clipboard
-                  </button>
+                  <CopyToClipboard text={c.username}>
+                    <button variant="outline-primary">
+                      Copy Username to Clipboard
+                    </button>
                   </CopyToClipboard>
                 </td>
-              
+
                 <td>
                   <button
                     onClick={() => {
@@ -123,7 +131,14 @@ function App() {
                   </button>
                 </td>
                 <td>
-                  <button variant="outline-primary" >Delete</button>
+                  <button
+                    onClick={() => {
+                      deleteHandler(c._id);
+                    }}
+                    variant="outline-primary"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

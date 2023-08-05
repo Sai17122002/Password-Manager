@@ -13,29 +13,24 @@ function Pin() {
 
   let usname = "";
   useEffect(() => {
-    Axios.get("http://localhost:3001/userdet").then((response) => {
+    Axios.post("http://localhost:3001/allusers", {
+      email: location.state.vl,
+    }).then((response) => {
       setuserList(response.data);
+      console.log(response.data);
     });
   }, []);
-
+  console.log(location.state);
   const veri = () => {
-    let count = 0;
-    for (let i = 0; i < userList.length; i++) {
-      if (userList[i].Pin === pinval) {
-        usname = usname + userList[i].Username;
-        count = 1;
-        break;
-      }
+    console.log(userList.data[0].Pin, pinval);
+    if (userList.data[0].Pin == pinval) {
+      // console.log("Success");
+      // console.log(location.state);
+      navigate("/Passw",{state: [location.state.val,pinval,location.state.email]});
     }
-    let a1 = "";
-    a1 = a1 + location.state.val;
-    a1 = a1 + "~";
-    a1 = a1 + usname;
-    if (count === 1) {
-      navigate("/Passw", { state: a1 });
-    } else {
-      navigate("/Login");
-    }
+    // } else {
+    //   navigate("/Login");
+    // }
   };
 
   return (
@@ -45,7 +40,7 @@ function Pin() {
           <img src={pass} />
           <div className="up"> Pass-Man </div>
         </div>
-        <div className="nam" >PIN</div>
+        <div className="nam">PIN</div>
         <input
           type="text"
           className="pinclass"
