@@ -3,7 +3,7 @@ import pass from "./password.png";
 import { NavLink } from "react-router-dom";
 import "./Signup.css";
 import { useState, useEffect } from "react";
-  import Axios from "axios";
+import Axios from "axios";
 import { TypeAnimation } from "react-type-animation";
 import Input from "./shared/Input";
 import {
@@ -11,6 +11,7 @@ import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "./Util/validators";
+import MainPageDesign from "./shared/MainPageDesign";
 
 function Signup() {
   const [usname, Setusname] = useState("");
@@ -20,7 +21,7 @@ function Signup() {
   const [passIsValid, setPassIsValid] = useState(false);
   const [pinIsValid, setPinIsValid] = useState(false);
   const putdata = () => {
-    Axios.post("http://localhost:3001/puttable", {
+    Axios.post(`${process.env.REACT_APP_BACKEND}/puttable`, {
       usname: usname,
       passc: passc,
       pinn: pinn,
@@ -48,8 +49,8 @@ function Signup() {
   } else dis = "not-allowed";
 
   return (
-    <div className="outer-login" style={{ margin: "40px" }}>
-      <div className="outer-login-text">
+    <div className="outer-login">
+      {/* <div className="outer-login-text">
         <p style={{ margin: "0" }}>
           <img src={pass} />
           <p>Password Manager</p>
@@ -72,7 +73,8 @@ function Signup() {
             color: "black",
           }}
         />
-      </div>
+      </div> */}
+      <MainPageDesign />
       <div className="inner-login">
         <div className="login-nam nam112">SIGN UP</div>
         <div className="nam111">
@@ -113,7 +115,7 @@ function Signup() {
             errorText="Enter a valid Pin"
           />
         </div>
-        <div className="button-wrapper">
+        <div className="signup-button-wrapper">
           <NavLink to="/Login">
             <button
               className="but1 login-but"

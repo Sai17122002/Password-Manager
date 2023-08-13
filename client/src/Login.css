@@ -14,7 +14,7 @@
   justify-content: center;
   align-items: center;
   gap: 120px;
-  margin: 70px 100px;
+  margin: 40px 100px;
   color: black;
 }
 
@@ -46,11 +46,10 @@
   color: #674fa2;
 }
 
-img {
-  margin-top: 7px;
-  margin-left: 90px;
-  width: 40px;
-  height: 40px;
+.outer-login-text p img {
+  width: 60px;
+  height: 60px;
+  display: inline-block;
 }
 
 .login-nam1 {
@@ -127,14 +126,36 @@ img {
   font-size: 25px;
   padding-left: 5px;
   /* transform: translateX(-14px); */
-  width: 1000px;
+  width: 100%;
 }
 
 .outer-login-text p p {
   padding-top: 10px;
   padding-left: 20px;
   font-size: 40px;
-  width: auto;
+  /* width: auto; */
   color: #674fa2;
   font-weight: 500;
+}
+
+@media only screen and (max-width: 996px) {
+  .outer-login {
+    flex-direction: column;
+    margin: 0;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .outer-login-text {
+    width: 100%;
+    padding-top: 30px;
+  }
+  .outer-login-text p {
+    display: block;
+    width: 100%;
+    padding-right: 20px;
+  }
+  .inner-login {
+    width: 70%;
+    margin-top: 0px;
+  }
 }

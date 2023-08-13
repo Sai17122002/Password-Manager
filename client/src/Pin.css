@@ -11,6 +11,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 20px;
 }
 
 .pinclass {
@@ -30,6 +31,7 @@
   width: 215px;
   height: 40px;
   margin-left: 70px;
+  margin-top: 20px;
 }
 
 .inner-pin .nam {
@@ -39,7 +41,7 @@
   color: white;
 }
 
-img {
+.upper-pin img {
   margin-top: 7px;
   margin-left: 90px;
   width: 40px;
@@ -66,4 +68,18 @@ img {
   font-weight: 500;
   background: #d4cddb;
   color: black;
+}
+
+.outer-pin input {
+  border-radius: 7px;
+  border: none;
+  outline: none;
+  padding: 2px 5px;
+  font-size: 15px;
+  color: #010a27;
+  font-weight: 600;
+}
+
+.verify-but:hover {
+  background: #9fc2c9;
 }

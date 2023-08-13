@@ -44,3 +44,16 @@ img1 {
   text-align: center;
   font-size: 30px;
 }
+
+.signup-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 996px) {
+  .signup-button-wrapper a button {
+    margin-left: 0;
+  }
+}

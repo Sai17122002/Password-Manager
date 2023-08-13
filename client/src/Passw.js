@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "./Passw.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import MainNavigation from "./shared/MainNavigation";
 
 function Passw() {
   const location = useLocation();
@@ -16,17 +17,20 @@ function Passw() {
   };
 
   return (
-    <div className="out1">
-      <div className="in1">Your Password is {ans[0]}</div>
-      <div>
-        <button className="b1t login-but" onClick={fun3}>
-          Go back
-        </button>
-        <CopyToClipboard text={ans}>
-          <button className="b1t login-but">Copy Password</button>
-        </CopyToClipboard>
+    <>
+      <MainNavigation />
+      <div className="out1">
+        <div className="in1">Your Password is <span>{ans[0]}</span></div>
+        <div className="passw-wrapper">
+          <button className="b1t login-but" onClick={fun3}>
+            Go back
+          </button>
+          <CopyToClipboard text={ans[0]}>
+            <button className="b1t login-but">Copy Password</button>
+          </CopyToClipboard>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

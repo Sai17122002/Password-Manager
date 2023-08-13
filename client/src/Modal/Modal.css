@@ -9,54 +9,6 @@
   border-radius: 8px;
 }
 
-/* .modal__header {
-  width: 100%;
-  padding: 1rem 0.5rem;
-  background: #2a006e;
-  color: white;
-}
-
-.modal__header h2 {
-  margin: 0.5rem;
-}
-
-.modal__content {
-  padding: 1rem 0.5rem;
-}
-
-.modal__footer {
-  padding: 1rem 0.5rem;
-}
-
-@media (min-width: 768px) {
-  .modal {
-    left: calc(50% - 20rem);
-    width: 40rem;
-  }
-}
-
-.modal-enter {
-  transform: translateY(-10rem);
-  opacity: 0;
-}
-
-.modal-enter-active {
-  transform: translateY(0);
-  opacity: 1;
-  transition: all 200ms;
-}
-
-.modal-exit {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.modal-exit-active {
-  transform: translateY(-10rem);
-  opacity: 0;
-  transition: all 200ms;
-} */
-
 .Addpass {
   display: flex;
   flex-direction: column;
@@ -83,4 +35,17 @@
 
 button {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 900px) {
+  .Addpass {
+    width: 65%;
+    transform: translateX(-10px);
+  }
+  .modal-input {
+    width: 70% !important;
+  }
+  .Addpass button {
+    width: 60%;
+  }
 }

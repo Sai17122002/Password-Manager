@@ -1,55 +1,63 @@
 import "./App.css";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import { useLocation } from "react-router-dom";
-
+import MainNavigation from "./shared/MainNavigation";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal/Modal";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+
+import PassItem from "./PassItem.js";
 
 function App() {
   const location = useLocation();
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
+  const [email, setEmail] = useState("");
   const [addPasswordModal, setAddPasswordModal] = useState(false);
+
   const navigate = useNavigate();
   const addPassword = () => {
-    Axios.post("http://localhost:3001/addpassword", {
+    console.log(localStorage.getItem("email"));
+    console.log(localStorage.getItem("token"));
+    Axios.post(`${process.env.REACT_APP_BACKEND}/addpassword`, {
       password: password,
       title: title,
-      passcode: location.state,
+      passcode: localStorage.getItem("email"),
       username: username,
+      token: localStorage.getItem("token"),
     }).then(() => {
       window.location.reload(true);
     });
   };
-
   const [passList, setPassList] = useState([]);
   let a = location.state;
-  console.log(location.state);
+
   useEffect(() => {
-    Axios.post("http://localhost:3001/showpass", {
-      email: location.state,
+    if (location.state) {
+      localStorage.setItem("email", location.state[0]);
+      localStorage.setItem("token", location.state[1]);
+    }
+
+    Axios.post(`${process.env.REACT_APP_BACKEND}/showpass`, {
+      email: localStorage.getItem("email"),
     }).then((response) => {
-      console.log(response.data);
       setPassList(response.data);
     });
-  }, [location.state.usname]);
-  console.log(passList);
+  }, [location.state]);
+
   const decryptPass = (encryption) => {
-    Axios.post("http://localhost:3001/decryptpass", {
+    Axios.post(`${process.env.REACT_APP_BACKEND}/decryptpass`, {
       password: encryption.password,
       iv: encryption.iv,
     }).then((response) => {
-      console.log(response);
       navigate("/Pin", {
         state: { val: response.data, vl: a, email: location.state },
       });
     });
   };
-
-  const loggout = () => {
+  console.log(passList);
+  const logout = () => {
     navigate("/Login");
   };
 
@@ -62,7 +70,7 @@ function App() {
   };
 
   const deleteHandler = (id) => {
-    Axios.post("http://localhost:3001/:id", {
+    Axios.post(`${process.env.REACT_APP_BACKEND}/:id`, {
       id: id,
     }).then((response) => {
       console.log("deleted");
@@ -72,6 +80,7 @@ function App() {
 
   return (
     <div className="App">
+      <MainNavigation logout={logout} />
       {addPasswordModal && (
         <Modal
           setTitle={setTitle}
@@ -81,69 +90,25 @@ function App() {
           addPassword={addPassword}
         />
       )}
-      <button onClick={AddPasswordModal} className="addpassword-button">
-        {" "}
-        Add Password
-      </button>
+      <div style={{ textAlign: "center", height: "45px" }}>
+        <button onClick={AddPasswordModal} className="addpassword-button">
+          {" "}
+          Add Password
+        </button>
+      </div>
 
-      <div className="pp1">Click below to view your Password</div>
+      <div style={{ textAlign: "center", padding: "5px 0" }} className="pp1">
+        Click below to view your Password
+      </div>
 
       <div className="showPasswo">
-        <table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>URL</th>
-              <th>Username</th>
-              <th>Password</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {passList.map((c) => (
-              <tr key={c.id}>
-                <td>{c.username}</td>
-                <td>www.google.com</td>
-                <td>{c.username}</td>
-                <td>******</td>
-                <td>
-                  <CopyToClipboard text={c.username}>
-                    <button variant="outline-primary">
-                      Copy Username to Clipboard
-                    </button>
-                  </CopyToClipboard>
-                </td>
-
-                <td>
-                  <button
-                    onClick={() => {
-                      decryptPass({
-                        password: c.password,
-                        iv: c.iv,
-                        id: c.id,
-                      });
-                    }}
-                  >
-                    View
-                  </button>
-                </td>
-                <td>
-                  <button
-                    onClick={() => {
-                      deleteHandler(c._id);
-                    }}
-                    variant="outline-primary"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {passList.map((data) => (
+          <PassItem
+            data={data}
+            deleteHandler={deleteHandler}
+            decryptPass={decryptPass}
+          />
+        ))}
       </div>
     </div>
   );
